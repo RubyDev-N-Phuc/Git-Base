@@ -7,13 +7,16 @@ before_action :admin_user, only: :destroy
 	def index
 		@users = User.all
 	end
+
 	def new
 		@user = User.new
 	end
+
 	def show
 		@user = User.find(params[:id])
-		@microposts = @user.microposts.paginate(page: params[:page])	
+		@microposts = @user.microposts.paginate(page: params[:page])
 	end
+
 	def edit
 		@user = User.find(params[:id])
 	end
@@ -28,7 +31,7 @@ before_action :admin_user, only: :destroy
           render 'new'
       end
   end
-  	
+
 	def update
 		@user = User.find(params[:id])
     if @user.update_attributes(user_params)
@@ -44,6 +47,7 @@ before_action :admin_user, only: :destroy
       	flash[:success] = "User deleted"
       	redirect_to users_url
 	end
+
 	def following
     	@title = "Following"
     	@user  = User.find(params[:id])
@@ -59,10 +63,11 @@ before_action :admin_user, only: :destroy
   	end
 
   	private
+
   	def user_params
-      	params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
-    end
+      	params.require(:user).permit(:name, :email, :password, :password_confirmation)
+		end
+
     def correct_user
         @user = User.find(params[:id])
         redirect_to(root_url) unless @user == current_user
